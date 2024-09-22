@@ -37,15 +37,17 @@ export default function RootLayout({
       variables:{colorPrimary:'#624cf5'}
     }
       
-    }>
+    }
+    afterSignOutUrl="/"
+    >
     <html lang="en">
       <body className={cn("font-IBMPlex antialiased",IBMPlex.variable)}>
-      <SignedOut>
-            <SignIn />
-          </SignedOut>
-          <SignedIn>
+      {/* <SignedOut> */}
+            {/* <SignIn/> */}
+          {/* </SignedOut> */}
+          {/* <SignedIn> */}
             {/* <UserButton /> */}
-          </SignedIn>
+          {/* </SignedIn> */}
         {children}
       </body>
     </html>
