@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import {IBM_Plex_Sans} from "next/font/google"
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ClerkProvider, SignedIn, SignedOut, SignIn, SignInButton, UserButton } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 
 
 const IBMPlex = IBM_Plex_Sans({
@@ -11,11 +11,13 @@ const IBMPlex = IBM_Plex_Sans({
   variable: "--font-ibm-plex",
   weight: ['400','500','600','700'],
 });
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -42,12 +44,6 @@ export default function RootLayout({
     >
     <html lang="en">
       <body className={cn("font-IBMPlex antialiased",IBMPlex.variable)}>
-      {/* <SignedOut> */}
-            {/* <SignIn/> */}
-          {/* </SignedOut> */}
-          {/* <SignedIn> */}
-            {/* <UserButton /> */}
-          {/* </SignedIn> */}
         {children}
       </body>
     </html>

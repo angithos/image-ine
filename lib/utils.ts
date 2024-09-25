@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // ERROR HANDLER
-export const handleError = (error: unknown) => {
+export const handleError = (error: unknown): never => {
   if (error instanceof Error) {
     // This is a native JavaScript error (e.g., TypeError, RangeError)
     console.error(error.message);
@@ -42,7 +42,7 @@ const shimmer = (w: number, h: number) => `
   <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
 </svg>`;
 
-const toBase64 = (str: string) =>
+const toBase64 = (str: string): string =>
   typeof window === "undefined"
     ? Buffer.from(str).toString("base64")
     : window.btoa(str);
@@ -57,7 +57,7 @@ export const formUrlQuery = ({
   searchParams,
   key,
   value,
-}: FormUrlQueryParams) => {
+}: FormUrlQueryParams):string =>  {
   const params = { ...qs.parse(searchParams.toString()), [key]: value };
 
   return `${window.location.pathname}?${qs.stringify(params, {
@@ -66,11 +66,16 @@ export const formUrlQuery = ({
 };
 
 // REMOVE KEY FROM QUERY
+interface RemoveUrlQueryParams {
+  searchParams: URLSearchParams;
+  keysToRemove: string[];
+}
+
 export function removeKeysFromQuery({
   searchParams,
   keysToRemove,
-}: RemoveUrlQueryParams) {
-  const currentUrl = qs.parse(searchParams);
+}: RemoveUrlQueryParams): string  {
+  const currentUrl = qs.parse(searchParams.toString());
 
   keysToRemove.forEach((key) => {
     delete currentUrl[key];
@@ -85,11 +90,11 @@ export function removeKeysFromQuery({
 }
 
 // DEBOUNCE
-export const debounce = (func: (...args: any[]) => void, delay: number) => {
+export const debounce = <T extends unknown[]>(func: (...args: T) => void, delay: number) => {
   let timeoutId: NodeJS.Timeout | null;
-  return (...args: any[]) => {
+  return (...args:T) => {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(null, args), delay);
+    timeoutId = setTimeout(() => func(...args), delay);
   };
 };
 
@@ -97,7 +102,7 @@ export const debounce = (func: (...args: any[]) => void, delay: number) => {
 export type AspectRatioKey = keyof typeof aspectRatioOptions;
 export const getImageSize = (
   type: string,
-  image: any,
+  image: { aspectRatio?: string; width?: number; height?: number },
   dimension: "width" | "height"
 ): number => {
   if (type === "fill") {
@@ -131,7 +136,7 @@ export const download = (url: string, filename: string) => {
 };
 
 // DEEP MERGE OBJECTS
-export const deepMergeObjects = (obj1: any, obj2: any) => {
+export const deepMergeObjects = <T extends object>(obj1: T, obj2: Partial<T> | null | undefined): T  => {
   if(obj2 === null || obj2 === undefined) {
     return obj1;
   }
@@ -153,5 +158,5 @@ export const deepMergeObjects = (obj1: any, obj2: any) => {
     }
   }
 
-  return output;
+  return output as T;
 };
