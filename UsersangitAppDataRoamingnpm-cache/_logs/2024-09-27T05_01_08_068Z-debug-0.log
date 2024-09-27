@@ -7,8 +7,7 @@
 6 silly config load:file:C:\Users\angit\AppData\Roaming\npm\etc\npmrc
 7 verbose title npm run dev
 8 verbose argv "run" "dev"
-9 verbose logfile logs-max:10 dir:C:\Users\angit\React\image-ine\UsersangitAppDataRoamingnpm-cache\_logs\2024-09-27T04_38_34_994Z-
-10 verbose logfile C:\Users\angit\React\image-ine\UsersangitAppDataRoamingnpm-cache\_logs\2024-09-27T04_38_34_994Z-debug-0.log
+9 verbose logfile logs-max:10 dir:C:\Users\angit\React\image-ine\UsersangitAppDataRoamingnpm-cache\_logs\2024-09-27T05_01_08_068Z-
+10 verbose logfile C:\Users\angit\React\image-ine\UsersangitAppDataRoamingnpm-cache\_logs\2024-09-27T05_01_08_068Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files
-13 http fetch GET 200 https://registry.npmjs.org/npm 660ms

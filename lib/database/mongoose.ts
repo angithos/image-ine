@@ -10,15 +10,24 @@ if (!cached) {
 
 export const connectToDatabase = async (): Promise<Mongoose> => {
   if (cached.conn) {
+    console.log("Using cached connection");
     return cached.conn;
   }
   if (!MONGODB_URL) throw new Error("MongoDB URL is not defined");
 
-  cached.promise = cached.promise || mongoose.connect(MONGODB_URL, {
-    dbName: 'image-ine',
-    bufferCommands: false,
-  });
-
-  cached.conn = await cached.promise;
-  return cached.conn;
+  try {
+    if (!cached.promise) {
+      console.log("Creating new connection to MongoDB...");
+      cached.promise = mongoose.connect(MONGODB_URL, {
+        dbName: 'image-ine',
+        bufferCommands: false,
+      });
+    }
+    cached.conn = await cached.promise;
+    console.log("Connected to MongoDB");
+    return cached.conn;
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    throw new Error("Failed to connect to MongoDB");
+  }
 };
