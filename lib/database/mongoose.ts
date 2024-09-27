@@ -19,11 +19,12 @@ export const connectToDatabase = async (): Promise<Mongoose> => {
     if (!cached.promise) {
       console.log("Creating new connection to MongoDB...");
       cached.promise = mongoose.connect(MONGODB_URL, {
-        dbName: 'IMAGE-INE',
+        dbName: 'image-ine',
         bufferCommands: false,
       });
     }
     cached.conn = await cached.promise;
+    console.log("MONGODB_URL:", MONGODB_URL);
     console.log("Connected to MongoDB");
     return cached.conn;
   } catch (error) {
