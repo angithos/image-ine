@@ -11,3 +11,9 @@
 10 verbose logfile C:\Users\angit\React\image-ine\UsersangitAppDataRoamingnpm-cache\_logs\2024-09-27T12_50_45_638Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files
+13 verbose cwd C:\Users\angit\React\image-ine
+14 verbose os Windows_NT 10.0.22631
+15 verbose node v20.13.1
+16 verbose npm  v10.8.3
+17 verbose exit 1073807364
+18 verbose code 1073807364
