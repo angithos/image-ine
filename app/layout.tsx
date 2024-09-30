@@ -40,7 +40,7 @@ export default function RootLayout({
     }
       
     }
-    afterSignOutUrl="/"
+    
     >
     <html lang="en">
       <body className={cn("font-IBMPlex antialiased",IBMPlex.variable)}>
