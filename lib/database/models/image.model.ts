@@ -7,7 +7,7 @@ export interface IImage extends Document{
     title: string;
     transformationType: string;
     publicId: string;
-    secureUrl: string;
+    secureURL: string;
     width?: number;
     height?: number;
     config?: object; // You can replace unknown with a more specific type if the config object is structured.
@@ -28,7 +28,7 @@ const ImageSchema= new Schema({
    title:{type:String,required:true},
    transformationType:{type:String,required:true},
    publicId:{type:String,required:true},
-   secureUrl:{type:URL,required:true},
+   secureURL:{type:URL,required:true},
    width:{type:Number},
    height:{type:Number},
    config:{type:Object},
