@@ -95,42 +95,52 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
         prompt:values.prompt,
         color:values.color,
       }
-      if(action === 'Add'){
-        try {
-          const newImage=await addImage({
-            image:imageData,
-            userId,
-            path:'/',
-          })
-          if(newImage){
-            form.reset()
-            setImage(data);
-            router.push(`/transformations/${newImage._id}`)
-
+      try {
+        if(action === 'Add'){
+          try {
+            console.log('Calling addImage function');
+            const newImage=await addImage({
+              image:imageData,
+              userId,
+              path:"/",
+            })
+            console.log('New image response:', newImage);
+            
+            if(newImage){
+              form.reset()
+              setImage(data);
+              router.push(`/transformations/${newImage._id}`)
+  
+            }
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
         }
-      }
-      if(action ==='Update'){
-        try {
-          const updatedImage=await updateImage({
-            image:{
-              ...imageData,
-              _id:data._id,
-            },
-            userId,
-            path:`/transformations/${data._id}`,
-          })
-          if(updatedImage){
-            router.push(`/transformations/${updatedImage._id}`)
-
+        if(action ==='Update'){
+          try {
+            const updatedImage=await updateImage({
+              image:{
+                ...imageData,
+                _id:data._id,
+              },
+              userId,
+              path:`/transformations/${data._id}`,
+            })
+            if(updatedImage){
+              router.push(`/transformations/${updatedImage._id}`)
+  
+            }
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
         }
+      } catch (error) {
+        console.error("Error saving the image: ", error);
       }
 
+
+    }else {
+      console.error("No image to transform");
     }
     setIsSubmitting(false);
   }
@@ -267,7 +277,7 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
        onValueChange={field.onChange}
        setImage={setImage}
        publicId={field.value}
-       image={Image}
+       image={image}
        type={type}
        />
        
@@ -295,10 +305,11 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
         {isTransforming ?'Transforming...':'Apply transformation'}
       </Button>
       
-      <Button 
+      <Button
+      type="submit"
       className="submit-button capitalize"
       disabled={isSubmitting}
-      type="submit">
+      >
       {isSubmitting ?'Submitting...':'Save image'}
 
       </Button>

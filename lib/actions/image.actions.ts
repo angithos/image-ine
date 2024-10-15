@@ -7,12 +7,11 @@ import User from "../database/models/user.model";
 import Image from "../database/models/image.model";
 import { redirect } from 'next/navigation'
 
-const populateUser = (query:any)=>query.populate({
-    path:'author',
-    model:User,
-    select:'_id firstName lastName',
-
-})
+const populateUser = (query: any) => query.populate({
+    path: 'author',
+    model: User,
+    select: '_id firstName lastName clerkId'
+  })
 
 
 
@@ -21,20 +20,27 @@ const populateUser = (query:any)=>query.populate({
 export async function addImage({ image, userId, path }: AddImageParams) {
     try {
         await connectToDatabase();
+       
+        console.log('Database connected successfully');
         const author=await User.findById(userId)
 
         if(!author) throw new Error("User not found");
-
+        console.log('User found:', author);
+        console.log('Image data to be created:', image);
         const newImage=await Image.create({
             ...image,
             author:author._id,
         })
 
-
+        // Add a console log here to make sure this runs
+        console.log('New image created:', newImage);
+        console.log('Revalidating path:', path);
         revalidatePath(path);
         return JSON.parse(JSON.stringify(newImage));
     } catch (error) {
         handleError(error);
+        console.log('Error in addImage function:', error);
+        
     }
 }
 //UPDATE IMAGE

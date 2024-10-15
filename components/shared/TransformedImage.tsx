@@ -1,4 +1,4 @@
-
+"use client"
 
 import { CldImage } from 'next-cloudinary'
 import { dataUrl, debounce, getImageSize } from '@/lib/utils';
@@ -47,7 +47,7 @@ const TransformedImage = ({image,type,title,transformationConfig,isTransforming,
                    onError={()=>{
                     debounce(()=>{
                      setIsTransforming && setIsTransforming(false);  
-                    },8000)
+                    },8000)()
                    }}
                    {...transformationConfig}
                    />
@@ -59,6 +59,7 @@ const TransformedImage = ({image,type,title,transformationConfig,isTransforming,
                         height={50}
                         alt='Transforming'
                         />
+                        <p className="text-white/80">Please wait...</p>
                     </div>
 
                    )}
