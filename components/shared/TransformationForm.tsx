@@ -22,9 +22,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { aspectRatioOptions, defaultValues, transformationTypes } from "@/constants"
+import { aspectRatioOptions, creditFee, defaultValues, transformationTypes } from "@/constants"
 import { CustomField } from "./CustomField"
-import { useState, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils"
 import MediaUploader from "./MediaUploader"
 import TransformedImage from "./TransformedImage"
@@ -32,11 +32,11 @@ import { updateCredits } from "@/lib/actions/user.actions"
 import { getCldImageUrl } from "next-cloudinary"
 import { addImage, updateImage } from "@/lib/actions/image.actions"
 import { useRouter } from "next/navigation"
+import { InsufficientCreditsModal } from "./InsufficientCreditsModal"
 
 export const formSchema = z.object({
   title: z.string(),
   aspectRatio: z.string().optional(),
-  username: z.string().min(2).max(50),
   color: z.string().optional(),
   prompt: z.string().optional(),
   publicId: z.string(),
@@ -72,7 +72,6 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values)
     setIsSubmitting(true);
     if(data || image){
       const transformationUrl=getCldImageUrl({
@@ -95,14 +94,13 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
         prompt:values.prompt,
         color:values.color,
       }
-      try {
         if(action === 'Add'){
           try {
             console.log('Calling addImage function');
             const newImage=await addImage({
               image:imageData,
               userId,
-              path:"/",
+              path:'/',
             })
             console.log('New image response:', newImage);
             
@@ -130,18 +128,11 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
               router.push(`/transformations/${updatedImage._id}`)
   
             }
-          } catch (error) {
-            console.log(error);
+          }catch(error){
+            console.log(error)
           }
         }
-      } catch (error) {
-        console.error("Error saving the image: ", error);
       }
-
-
-    }else {
-      console.error("No image to transform");
-    }
     setIsSubmitting(false);
   }
 
@@ -169,8 +160,9 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
               value
             }
           }))
-          return onChangeField(value);
-        },1000)
+          
+        },1000)();
+        return onChangeField(value);
   }
   //TODO:Update credit fee to something
   const onTransformHandler = async()=>{
@@ -183,14 +175,19 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
 
     setnewTransformation(null)
    startTransition(async()=>{
-     await updateCredits(userId,-1)
+     await updateCredits(userId,creditFee)
    })
   }
-
+  useEffect(()=>{
+    if(image && (type==='restore' || type ==='removeBackground')){
+      setnewTransformation(transformationType.config)
+    }
+  },[image,transformationType.config,type])
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {creditBalance <Math.abs(creditFee) && <InsufficientCreditsModal/>}
         <CustomField
           control={form.control}
           name="title"

@@ -1,5 +1,4 @@
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use server";
 
 import { revalidatePath } from "next/cache";
@@ -33,15 +32,10 @@ export async function addImage({ image, userId, path }: AddImageParams) {
             ...image,
             author:author._id,
         })
-
-        // Add a console log here to make sure this runs
-        console.log('New image created:', newImage);
-        console.log('Revalidating path:', path);
         revalidatePath(path);
         return JSON.parse(JSON.stringify(newImage));
     } catch (error) {
         handleError(error);
-        console.log('Error in addImage function:', error);
         
     }
 }

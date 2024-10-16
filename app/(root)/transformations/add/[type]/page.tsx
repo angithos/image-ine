@@ -9,7 +9,7 @@ const AddTranformationTypePage =async ({params:{type}}:SearchParamProps) => {
   const {userId}=auth();
   const transformation = transformationTypes[type];
 
-const user =await getUserById(userId || "");
+const user =await getUserById(userId || '');
 
   return (
     <>
