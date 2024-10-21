@@ -66,16 +66,16 @@ export const formUrlQuery = ({
 };
 
 // REMOVE KEY FROM QUERY
-interface RemoveUrlQueryParams {
-  searchParams: URLSearchParams;
-  keysToRemove: string[];
-}
+// interface RemoveUrlQueryParams {
+//   searchParams: URLSearchParams;
+//   keysToRemove: string[];
+// }
 
 export function removeKeysFromQuery({
   searchParams,
   keysToRemove,
-}: RemoveUrlQueryParams): string  {
-  const currentUrl = qs.parse(searchParams.toString());
+}: RemoveUrlQueryParams) {
+  const currentUrl = qs.parse(searchParams);
 
   keysToRemove.forEach((key) => {
     delete currentUrl[key];

@@ -4,6 +4,7 @@ import { model, models, Schema } from "mongoose";
 
 
 export interface IImage extends Document{
+    _id:string;
     title: string;
     transformationType: string;
     publicId: string;
@@ -15,7 +16,7 @@ export interface IImage extends Document{
     aspectRatio?: string;
     color?: string;
     prompt?: string;
-    author?: {
+    author: {
         _id:string;
         firstName:string;
         lastName:string;
