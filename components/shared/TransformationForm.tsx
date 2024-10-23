@@ -141,7 +141,7 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
 
   setImage((prevState:any)=>({
     ...prevState,
-    aspectRation:imageSize.aspectRatio,
+    aspectRatio:imageSize.aspectRatio,
     width:imageSize.width,
     height:imageSize.height,
   }))
@@ -204,6 +204,7 @@ const TransformationForm = ({ action, data = null,userId,type,creditBalance,conf
             render={({ field }) => (
               <Select
               onValueChange={(value)=>onSelectFieldHandler(value,field.onChange)}
+              value={field.value}
               >
                 <SelectTrigger className="select-field">
                   <SelectValue placeholder="Select Size" />
